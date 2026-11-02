@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<sdf version="1.9" xmlns:drake="http://drake.mit.edu">
+  <model name="lego_2x2_green">
+    <link name="brick">
+      <inertial>
+        <pose>0.0 0.0 0.011136 0 0 0</pose>
+        <mass>0.00926025</mass>
+        <inertia>
+          <ixx>1.05505e-06</ixx><iyy>1.05505e-06</iyy><izz>1.54115e-06</izz>
+          <ixy>0</ixy><ixz>0</ixz><iyz>0</iyz>
+        </inertia>
+      </inertial>
+      <visual name="v_top"><pose>0 0 0.0182 0 0 0</pose><geometry><box><size>0.0316 0.0316 0.002</size></box></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_wall_px"><pose>0.01445 0 0.0086 0 0 0</pose><geometry><box><size>0.0027 0.0316 0.0172</size></box></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_wall_nx"><pose>-0.01445 0 0.0086 0 0 0</pose><geometry><box><size>0.0027 0.0316 0.0172</size></box></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_wall_py"><pose>0 0.01445 0.0086 0 0 0</pose><geometry><box><size>0.0262 0.0027 0.0172</size></box></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_wall_ny"><pose>0 -0.01445 0.0086 0 0 0</pose><geometry><box><size>0.0262 0.0027 0.0172</size></box></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_tube_0"><pose>0 0 0.0086 0 0 0</pose><geometry><cylinder><radius>0.00621371</radius><length>0.0172</length></cylinder></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_stud_0"><pose>-0.008 -0.008 0.0209 0 0 0</pose><geometry><cylinder><radius>0.0048</radius><length>0.0034</length></cylinder></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_stud_1"><pose>-0.008 0.008 0.0209 0 0 0</pose><geometry><cylinder><radius>0.0048</radius><length>0.0034</length></cylinder></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_stud_2"><pose>0.008 -0.008 0.0209 0 0 0</pose><geometry><cylinder><radius>0.0048</radius><length>0.0034</length></cylinder></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <visual name="v_stud_3"><pose>0.008 0.008 0.0209 0 0 0</pose><geometry><cylinder><radius>0.0048</radius><length>0.0034</length></cylinder></geometry><material><diffuse>0.1 0.55 0.2 1.0</diffuse><ambient>0.1 0.55 0.2 1.0</ambient></material></visual>
+      <collision name="c_top"><pose>0 0 0.0182 0 0 0</pose><geometry><box><size>0.0316 0.0316 0.002</size></box></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_wall_px"><pose>0.01445 0 0.0086 0 0 0</pose><geometry><box><size>0.0027 0.0316 0.0172</size></box></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_wall_nx"><pose>-0.01445 0 0.0086 0 0 0</pose><geometry><box><size>0.0027 0.0316 0.0172</size></box></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_wall_py"><pose>0 0.01445 0.0086 0 0 0</pose><geometry><box><size>0.0262 0.0027 0.0172</size></box></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_wall_ny"><pose>0 -0.01445 0.0086 0 0 0</pose><geometry><box><size>0.0262 0.0027 0.0172</size></box></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_tube_0"><pose>0 0 0.0086 0 0 0</pose><geometry><cylinder><radius>0.00621371</radius><length>0.0172</length></cylinder></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_stud_0"><pose>-0.008 -0.008 0.0209 0 0 0</pose><geometry><cylinder><radius>0.0048</radius><length>0.0034</length></cylinder></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_stud_1"><pose>-0.008 0.008 0.0209 0 0 0</pose><geometry><cylinder><radius>0.0048</radius><length>0.0034</length></cylinder></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_stud_2"><pose>0.008 -0.008 0.0209 0 0 0</pose><geometry><cylinder><radius>0.0048</radius><length>0.0034</length></cylinder></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+      <collision name="c_stud_3"><pose>0.008 0.008 0.0209 0 0 0</pose><geometry><cylinder><radius>0.0048</radius><length>0.0034</length></cylinder></geometry><drake:proximity_properties><drake:mu_static>0.6</drake:mu_static><drake:mu_dynamic>0.5</drake:mu_dynamic><drake:hunt_crossley_dissipation>1.0</drake:hunt_crossley_dissipation></drake:proximity_properties></collision>
+    </link>
+  </model>
+</sdf>

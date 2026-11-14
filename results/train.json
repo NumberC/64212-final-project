@@ -1,0 +1,513 @@
+{
+  "test": {
+    "teacher": {
+      "completion": 0.416,
+      "placed_fraction": 0.8573214285714286,
+      "seconds_per_brick": 27.279320255257122
+    },
+    "bc": {
+      "completion": 0.416,
+      "placed_fraction": 0.8572515873015872,
+      "seconds_per_brick": 27.289174281293796
+    },
+    "ppo": {
+      "completion": 0.892,
+      "placed_fraction": 0.9763563492063493,
+      "seconds_per_brick": 27.169462716379602
+    }
+  },
+  "configs": {
+    "4by4Square": {
+      "bricks": 2,
+      "ceiling": 2,
+      "teacher": {
+        "placed": 2,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 24.673463729736987
+      },
+      "bc": {
+        "placed": 2,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 24.673463729736987
+      },
+      "ppo": {
+        "placed": 2,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 24.673463729736987
+      }
+    },
+    "4by4SquareRotated": {
+      "bricks": 2,
+      "ceiling": 2,
+      "teacher": {
+        "placed": 2,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 24.79160330881155
+      },
+      "bc": {
+        "placed": 2,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 24.79160330881155
+      },
+      "ppo": {
+        "placed": 2,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 24.79160330881155
+      }
+    },
+    "twoLayerWall": {
+      "bricks": 4,
+      "ceiling": 4,
+      "teacher": {
+        "placed": 4,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 23.386263670356
+      },
+      "bc": {
+        "placed": 4,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 23.386263670356
+      },
+      "ppo": {
+        "placed": 4,
+        "completion": 1.0,
+        "placed_fraction": 1.0,
+        "seconds_per_brick": 23.386263670356
+      }
+    },
+    "4by4SquareWithUnitBlocks": {
+      "bricks": 16,
+      "ceiling": 4,
+      "teacher": {
+        "placed": 4,
+        "completion": 0.0,
+        "placed_fraction": 0.25,
+        "seconds_per_brick": 23.368174653424724
+      },
+      "bc": {
+        "placed": 4,
+        "completion": 0.0,
+        "placed_fraction": 0.25,
+        "seconds_per_brick": 23.328080953712817
+      },
+      "ppo": {
+        "placed": 4,
+        "completion": 0.0,
+        "placed_fraction": 0.25,
+        "seconds_per_brick": 23.328080953712817
+      }
+    }
+  },
+  "bc": {
+    "transitions": 10987,
+    "history": [
+      {
+        "epoch": 0,
+        "loss": 0.8247215747833252,
+        "accuracy": 0.6358839273452759
+      },
+      {
+        "epoch": 1,
+        "loss": 0.6837546229362488,
+        "accuracy": 0.6868953108787537
+      },
+      {
+        "epoch": 2,
+        "loss": 0.63362056016922,
+        "accuracy": 0.7510994076728821
+      },
+      {
+        "epoch": 3,
+        "loss": 0.6046860814094543,
+        "accuracy": 0.8003517985343933
+      },
+      {
+        "epoch": 4,
+        "loss": 0.5786702632904053,
+        "accuracy": 0.8504837155342102
+      },
+      {
+        "epoch": 5,
+        "loss": 0.5521812438964844,
+        "accuracy": 0.8583992719650269
+      },
+      {
+        "epoch": 6,
+        "loss": 0.5110780000686646,
+        "accuracy": 0.8900615572929382
+      },
+      {
+        "epoch": 7,
+        "loss": 0.43612170219421387,
+        "accuracy": 0.9006156325340271
+      },
+      {
+        "epoch": 8,
+        "loss": 0.3325387239456177,
+        "accuracy": 0.9349164366722107
+      },
+      {
+        "epoch": 9,
+        "loss": 0.24925343692302704,
+        "accuracy": 0.9630606770515442
+      },
+      {
+        "epoch": 10,
+        "loss": 0.1954677253961563,
+        "accuracy": 0.9709762334823608
+      },
+      {
+        "epoch": 11,
+        "loss": 0.1584865003824234,
+        "accuracy": 0.983289361000061
+      },
+      {
+        "epoch": 12,
+        "loss": 0.13707709312438965,
+        "accuracy": 0.9806508421897888
+      },
+      {
+        "epoch": 13,
+        "loss": 0.12464682012796402,
+        "accuracy": 0.9736147522926331
+      },
+      {
+        "epoch": 14,
+        "loss": 0.10972835123538971,
+        "accuracy": 0.9797713160514832
+      },
+      {
+        "epoch": 15,
+        "loss": 0.1075136587023735,
+        "accuracy": 0.9709762334823608
+      },
+      {
+        "epoch": 16,
+        "loss": 0.09529697149991989,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 17,
+        "loss": 0.09005682915449142,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 18,
+        "loss": 0.08684879541397095,
+        "accuracy": 0.9797713160514832
+      },
+      {
+        "epoch": 19,
+        "loss": 0.08462538570165634,
+        "accuracy": 0.9788918495178223
+      },
+      {
+        "epoch": 20,
+        "loss": 0.07894618064165115,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 21,
+        "loss": 0.0771009624004364,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 22,
+        "loss": 0.07849065214395523,
+        "accuracy": 0.9771327972412109
+      },
+      {
+        "epoch": 23,
+        "loss": 0.07155558466911316,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 24,
+        "loss": 0.07134706526994705,
+        "accuracy": 0.983289361000061
+      },
+      {
+        "epoch": 25,
+        "loss": 0.07226776331663132,
+        "accuracy": 0.9788918495178223
+      },
+      {
+        "epoch": 26,
+        "loss": 0.06927695125341415,
+        "accuracy": 0.9806508421897888
+      },
+      {
+        "epoch": 27,
+        "loss": 0.06614166498184204,
+        "accuracy": 0.9806508421897888
+      },
+      {
+        "epoch": 28,
+        "loss": 0.06693358719348907,
+        "accuracy": 0.9797713160514832
+      },
+      {
+        "epoch": 29,
+        "loss": 0.06722612679004669,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 30,
+        "loss": 0.0651291087269783,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 31,
+        "loss": 0.0702894777059555,
+        "accuracy": 0.9797713160514832
+      },
+      {
+        "epoch": 32,
+        "loss": 0.06250367313623428,
+        "accuracy": 0.9806508421897888
+      },
+      {
+        "epoch": 33,
+        "loss": 0.06315204501152039,
+        "accuracy": 0.983289361000061
+      },
+      {
+        "epoch": 34,
+        "loss": 0.06562020629644394,
+        "accuracy": 0.9797713160514832
+      },
+      {
+        "epoch": 35,
+        "loss": 0.05991096422076225,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 36,
+        "loss": 0.06551128625869751,
+        "accuracy": 0.9841688871383667
+      },
+      {
+        "epoch": 37,
+        "loss": 0.06261342018842697,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 38,
+        "loss": 0.06095413118600845,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 39,
+        "loss": 0.05789891257882118,
+        "accuracy": 0.983289361000061
+      },
+      {
+        "epoch": 40,
+        "loss": 0.06285621225833893,
+        "accuracy": 0.983289361000061
+      },
+      {
+        "epoch": 41,
+        "loss": 0.06407976895570755,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 42,
+        "loss": 0.06112544238567352,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 43,
+        "loss": 0.0598563514649868,
+        "accuracy": 0.9806508421897888
+      },
+      {
+        "epoch": 44,
+        "loss": 0.06425494700670242,
+        "accuracy": 0.9806508421897888
+      },
+      {
+        "epoch": 45,
+        "loss": 0.06051158532500267,
+        "accuracy": 0.9806508421897888
+      },
+      {
+        "epoch": 46,
+        "loss": 0.06667157262563705,
+        "accuracy": 0.9797713160514832
+      },
+      {
+        "epoch": 47,
+        "loss": 0.06089547276496887,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 48,
+        "loss": 0.05986559018492699,
+        "accuracy": 0.9797713160514832
+      },
+      {
+        "epoch": 49,
+        "loss": 0.06138944998383522,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 50,
+        "loss": 0.06196403130888939,
+        "accuracy": 0.9788918495178223
+      },
+      {
+        "epoch": 51,
+        "loss": 0.06255509704351425,
+        "accuracy": 0.9788918495178223
+      },
+      {
+        "epoch": 52,
+        "loss": 0.06392475217580795,
+        "accuracy": 0.9780123233795166
+      },
+      {
+        "epoch": 53,
+        "loss": 0.05764017626643181,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 54,
+        "loss": 0.06031591817736626,
+        "accuracy": 0.9797713160514832
+      },
+      {
+        "epoch": 55,
+        "loss": 0.05775989964604378,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 56,
+        "loss": 0.0608573853969574,
+        "accuracy": 0.9824098348617554
+      },
+      {
+        "epoch": 57,
+        "loss": 0.05679284408688545,
+        "accuracy": 0.9815303683280945
+      },
+      {
+        "epoch": 58,
+        "loss": 0.060970988124608994,
+        "accuracy": 0.983289361000061
+      },
+      {
+        "epoch": 59,
+        "loss": 0.056819021701812744,
+        "accuracy": 0.9824098348617554
+      }
+    ]
+  },
+  "ppo": [
+    {
+      "batch": 0,
+      "completion": 0.43,
+      "placed_fraction": 0.8627896825396826,
+      "seconds_per_brick": 27.278093601101396
+    },
+    {
+      "batch": 20,
+      "completion": 0.515,
+      "placed_fraction": 0.8871626984126985,
+      "seconds_per_brick": 27.269006295303434
+    },
+    {
+      "batch": 40,
+      "completion": 0.66,
+      "placed_fraction": 0.9291031746031746,
+      "seconds_per_brick": 27.241212931572917
+    },
+    {
+      "batch": 60,
+      "completion": 0.725,
+      "placed_fraction": 0.9446805555555556,
+      "seconds_per_brick": 27.22816898534021
+    },
+    {
+      "batch": 80,
+      "completion": 0.75,
+      "placed_fraction": 0.9496309523809523,
+      "seconds_per_brick": 27.224259378650917
+    },
+    {
+      "batch": 100,
+      "completion": 0.775,
+      "placed_fraction": 0.9546448412698413,
+      "seconds_per_brick": 27.21551943968109
+    },
+    {
+      "batch": 120,
+      "completion": 0.805,
+      "placed_fraction": 0.9607896825396826,
+      "seconds_per_brick": 27.203683206899086
+    },
+    {
+      "batch": 140,
+      "completion": 0.83,
+      "placed_fraction": 0.9650813492063491,
+      "seconds_per_brick": 27.181298785069618
+    },
+    {
+      "batch": 160,
+      "completion": 0.83,
+      "placed_fraction": 0.9644623015873016,
+      "seconds_per_brick": 27.183936908506325
+    },
+    {
+      "batch": 180,
+      "completion": 0.855,
+      "placed_fraction": 0.9695932539682539,
+      "seconds_per_brick": 27.167758339392087
+    },
+    {
+      "batch": 200,
+      "completion": 0.84,
+      "placed_fraction": 0.9656626984126985,
+      "seconds_per_brick": 27.17330058123095
+    },
+    {
+      "batch": 220,
+      "completion": 0.86,
+      "placed_fraction": 0.9706984126984127,
+      "seconds_per_brick": 27.16453162570623
+    },
+    {
+      "batch": 240,
+      "completion": 0.875,
+      "placed_fraction": 0.9749960317460318,
+      "seconds_per_brick": 27.160694695877158
+    },
+    {
+      "batch": 260,
+      "completion": 0.88,
+      "placed_fraction": 0.9747579365079365,
+      "seconds_per_brick": 27.16195597239803
+    },
+    {
+      "batch": 280,
+      "completion": 0.885,
+      "placed_fraction": 0.9748849206349207,
+      "seconds_per_brick": 27.16012350269767
+    },
+    {
+      "batch": 299,
+      "completion": 0.895,
+      "placed_fraction": 0.9755079365079365,
+      "seconds_per_brick": 27.153342029492894
+    }
+  ],
+  "seconds": 153.09454137505963
+}

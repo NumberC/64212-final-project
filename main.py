@@ -23,9 +23,11 @@ The pivot point for location is the bottom-left corner regardless of vertical or
 Legos are placed out in the order they appear in the file. So line 1 will be placed before line 2. A series of lines will build our structure.
 """
 
+import argparse
 import csv
-import sys
 from pathlib import Path
+
+import numpy as np
 
 import lego_bricks as lb
 
@@ -105,6 +107,15 @@ _board_len = BOARD_STUDS[0] * lb.PITCH_MM * LEGO_PARAMS.scale * 1e-3
 _board_wid = BOARD_STUDS[1] * lb.PITCH_MM * LEGO_PARAMS.scale * 1e-3
 BOARD_ORIGIN = [0.6 - _board_len / 2, -_board_wid / 2, 0.0]
 
+# Supply plate: where the bricks start, seated at rotation 0, to the robot's
+# right of the board. SUPPLY_GAP free studs separate neighboring bricks so the
+# open fingers fit between them.
+SUPPLY_STUDS = (16, 12)
+_supply_len = SUPPLY_STUDS[0] * lb.PITCH_MM * LEGO_PARAMS.scale * 1e-3
+_supply_wid = SUPPLY_STUDS[1] * lb.PITCH_MM * LEGO_PARAMS.scale * 1e-3
+SUPPLY_ORIGIN = [0.5 - _supply_len / 2, -0.35 - _supply_wid / 2, 0.0]
+SUPPLY_GAP = 2
+
 # Bricks spawn this far above their seated height so nothing starts in
 # penetration; gravity settles them onto the studs.
 SPAWN_CLEARANCE = 0.001
@@ -127,21 +138,36 @@ def _lego_sdf_url(W, L, color):
     return path.as_uri()
 
 
-def lego_world_pose(W, L, x, y, rotation, level=0):
+def lego_world_pose(W, L, x, y, rotation, level=0, origin=BOARD_ORIGIN):
     """World pose (RigidTransform) of a seated brick's body frame (center of its bottom face)."""
     info = lb.brick_info(lb.BrickSpec(nx=W, ny=L), LEGO_PARAMS)
-    return lb.grid_pose(info, x, y, level, yaw_deg=90 * rotation, origin=BOARD_ORIGIN)
+    return lb.grid_pose(info, x, y, level, yaw_deg=90 * rotation, origin=origin)
 
 
-def generateLegoDirective(W, L, x, y, rotation, level=0, color="red", name=None):
-    """Directive YAML that adds one free-floating brick at a board position.
+def supply_cells(legos):
+    """Stud cell (x, y) on the supply plate for each brick, packed in rows in order."""
+    cells, x, y, row_depth = [], 0, 0, 0
+    for W, L, *_ in legos:
+        if x + W > SUPPLY_STUDS[0]:
+            x, y, row_depth = 0, y + row_depth + SUPPLY_GAP, 0
+        if y + L > SUPPLY_STUDS[1]:
+            raise ValueError("too many bricks for the supply plate")
+        cells.append((x, y))
+        x += W + SUPPLY_GAP
+        row_depth = max(row_depth, L)
+    return cells
+
+
+def generateLegoDirective(W, L, x, y, rotation, level=0, color="red", name=None,
+                          origin=BOARD_ORIGIN):
+    """Directive YAML that adds one free-floating brick at a plate position.
 
     The brick is NOT welded: it is a free body that starts just above the
     given cell and settles under gravity, so the robot can pick it up later.
     `name` must be unique within the scenario (e.g. "lego_3").
     """
     name = name or f"lego_{W}x{L}_{x}_{y}_{level}"
-    X = lego_world_pose(W, L, x, y, rotation, level)
+    X = lego_world_pose(W, L, x, y, rotation, level, origin)
     tx, ty, tz = X.translation()
     tz += SPAWN_CLEARANCE * (level + 1)
     return f"""directives:
@@ -155,19 +181,20 @@ def generateLegoDirective(W, L, x, y, rotation, level=0, color="red", name=None)
 """
 
 
-def generateBaseplateDirective(color="green"):
-    """Directive YAML that adds the studded baseplate, welded to the world."""
+def generateBaseplateDirective(name="baseplate", studs=BOARD_STUDS, origin=BOARD_ORIGIN,
+                               color="green"):
+    """Directive YAML that adds a studded plate, welded to the world."""
     ASSET_DIR.mkdir(parents=True, exist_ok=True)
-    path = ASSET_DIR / "baseplate.sdf"
-    path.write_text(lb.generate_baseplate_sdf(*BOARD_STUDS, params=LEGO_PARAMS, color=color))
-    bx, by, bz = BOARD_ORIGIN
+    path = ASSET_DIR / f"{name}.sdf"
+    path.write_text(lb.generate_baseplate_sdf(*studs, params=LEGO_PARAMS, color=color, name=name))
+    bx, by, bz = origin
     return f"""directives:
 - add_model:
-    name: baseplate
+    name: {name}
     file: {path.as_uri()}
 - add_weld:
     parent: world
-    child: baseplate::plate
+    child: {name}::plate
     X_PC:
         translation: [{bx:.6f}, {by:.6f}, {bz:.6f}]
 """
@@ -219,20 +246,77 @@ def show_scene(system, duration: float = 2.0):
     if not HEADLESS:
         simulator.set_target_realtime_rate(1.0)
     simulator.AdvanceTo(duration)
+    return simulator
+
+def make_scene(legos) -> Scenario:
+    """The robot, the board, and every brick of `legos` seated on the supply plate.
+
+    The board stays empty: each lego's (x, y, rotation, level) is its target,
+    for the robot to place it at.
+    """
+    scenario = make_scenario()
+    scenario = AppendDirectives(scenario, data=generateBaseplateDirective())
+    scenario = AppendDirectives(
+        scenario,
+        data=generateBaseplateDirective("supply", SUPPLY_STUDS, SUPPLY_ORIGIN, (0.6, 0.6, 0.6, 1)),
+    )
+    for i, ((W, L, *_, color), (sx, sy)) in enumerate(zip(legos, supply_cells(legos))):
+        scenario = AppendDirectives(
+            scenario,
+            data=generateLegoDirective(W, L, sx, sy, 0, 0, color, f"lego_{i}", SUPPLY_ORIGIN),
+        )
+    return scenario
+
+
+def build_with_policy(legos, policy_path):
+    """Let the policy ("teacher" for the scripted one) choose every (brick,
+    axis), execute the build in Drake, and print how far each placed brick
+    ended up from its target."""
+    # Imported here: lego_env imports this module.
+    import lego_env
+    import lego_policy
+    from pick_place import build_system
+
+    if policy_path == "teacher":
+        choose = lego_env.teacher
+    else:
+        policy = lego_policy.load(policy_path)
+        choose = lambda env: divmod(policy.act(env, greedy=True)[0], 2)
+    env = lego_env.LegoEnv(legos)
+    order = []
+    while not env.done:
+        i, a = choose(env)
+        env.step(i, a)
+        order.append((i, a))
+    print(f"policy places {len(order)}/{len(legos)} bricks in {env.seconds:.1f}s:",
+          [(i, lego_env.AXES[a]) for i, a in order])
+
+    waypoints = [w for i, a in order for w in env.waypoints[i, a]]
+    system, duration = build_system(make_scene(legos), ROBOT, waypoints)
+    simulator = show_scene(system, duration + 1.0)
+    plant = system.GetSubsystemByName("station").GetSubsystemByName("plant")
+    context = plant.GetMyContextFromRoot(simulator.get_context())
+    for i, _ in order:
+        W, L, x, y, rot, level, _ = legos[i]
+        body = plant.GetBodyByName("brick", plant.GetModelInstanceByName(f"lego_{i}"))
+        X = plant.EvalBodyPoseInWorld(context, body)
+        X_target = lego_world_pose(W, L, x, y, rot, level)
+        error = 1000 * np.linalg.norm(X.translation() - X_target.translation())
+        angle = np.degrees((X_target.rotation().inverse() @ X.rotation()).ToAngleAxis().angle())
+        print(f"  lego_{i} {W}x{L} at ({x},{y}) level {level}: {error:.2f} mm, {angle:.2f} deg")
+
 
 def main():
-    mainScenario = make_scenario()
-    # build scenario with legos
-    config = sys.argv[1] if len(sys.argv) > 1 else "./sample_configs/4by4Square.csv"
-    legosToBePlaced = config_interpretor(config)
-    mainScenario = AppendDirectives(mainScenario, data=generateBaseplateDirective())
-    for i, (W, L, x, y, is90Deg, level, color) in enumerate(legosToBePlaced):
-        mainScenario = AppendDirectives(
-            mainScenario,
-            data=generateLegoDirective(W, L, x, y, is90Deg, level, color, name=f"lego_{i}"),
-        )
-
-    show_scene(build_static_system(mainScenario))
+    parser = argparse.ArgumentParser(description="Show a LEGO scene, or build it with a policy.")
+    parser.add_argument("config", nargs="?", default="./sample_configs/4by4Square.csv")
+    parser.add_argument("--policy", help="build the config with 'teacher' or a saved policy "
+                                         "(e.g. policies/ppo.pt)")
+    args = parser.parse_args()
+    legos = config_interpretor(args.config)
+    if args.policy:
+        build_with_policy(legos, args.policy)
+    else:
+        show_scene(build_static_system(make_scene(legos)))
 
 
 if __name__ == "__main__":

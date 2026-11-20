@@ -1,0 +1,21 @@
+[project]
+name = "lego-builder"
+version = "0.1.0"
+description = "A robot arm builds LEGO structures: learned build order (PPO) vs motion planning (Sheet-RRT)."
+requires-python = ">=3.12"
+dependencies = [
+    "drake>=1.57",
+    "manipulation>=2026.9.17",
+    "numpy>=2",
+    "torch>=2.6",
+]
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

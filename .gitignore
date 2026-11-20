@@ -1,0 +1,5 @@
+.venv/
+__pycache__/
+physical/lego/generated_models/
+results/*
+!results/train.json
